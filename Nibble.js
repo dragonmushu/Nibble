@@ -242,7 +242,7 @@ var addFood = function (){
 	var speed = parseInt(Math.random()*8) +1;
 	var color = randomColor ();
 	if(!gameOver) allFood.push(new Food(x, speed, length, color, eat));
-	if(!resetting){
+	if(!pause && !resetting){
 		timeoutID.push(setTimeout(addFood, interval));
 		if(timeoutID.length>1000) timeoutID.splice(0, timeoutID.length-101);
 	} 	
