@@ -61,7 +61,7 @@ var interval; //the interval at which food drops down
 var fish_images=[];
 
 //levels
-var LEVELS = [100, 200, 400, 800, 1500];
+var LEVELS = [100, 400, 800, 1500, 2500];
 var LEVEL_COUNT=0;
 
 
@@ -393,9 +393,7 @@ function init (p){
 function start (p){
 	resetting=true;
 	foodCounter=0;
-	for(var i=timeoutID.length-1; i>=0 && i>=timeoutID.length-100; i--){
-		clearTimeout(timeoutID[i]);
-	}
+	deleteAllFood();
 	reset(p);
 }
 
@@ -404,6 +402,13 @@ function start (p){
 function reset (p){
 	allFood=[];
 	init(p);
+}
+
+//deletes all food timout calls
+function deleteAllFood (){
+	for(var i=timeoutID.length-1; i>=0 && i>=timeoutID.length-100; i--){
+		clearTimeout(timeoutID[i]);
+	}
 }
 
 //animation is done
@@ -455,8 +460,13 @@ function update (){
 			}
 		}
 		if(LEVEL_COUNT!=5 && score>LEVELS[LEVEL_COUNT]){
-			addFood();
+			DRAG+=0.01;
+			deleteAllFood();
 			LEVEL_COUNT++;
+			setTimeout(function (){
+				for(var i=0; i<LEVEL_COUNT; i++) addFood();
+			}, 10000);
+			
 		}
 
 	}
