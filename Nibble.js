@@ -60,7 +60,7 @@ var interval; //the interval at which food drops down
 var fish_images=[];
 
 //levels
-var LEVELS = [100, 200, 400, 800, 1500];
+var LEVELS = [200, 500, 1000, 2000, 4000];
 var LEVEL_COUNT=0;
 
 
