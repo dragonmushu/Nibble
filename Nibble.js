@@ -2,6 +2,7 @@
 var play;
 var gameOver;
 var pause;
+var mute=false;
 var resetting;
 
 //animation
@@ -60,7 +61,7 @@ var interval; //the interval at which food drops down
 var fish_images=[];
 
 //levels
-var LEVELS = [200, 500, 1000, 2000, 4000];
+var LEVELS = [100, 200, 400, 800, 1500];
 var LEVEL_COUNT=0;
 
 
@@ -329,6 +330,12 @@ loadWindow().then(function(image){
 	return getImage("gameover.png", 0.2);
 }).then(function(image){
 	gameover_icon=image;
+	return getImage("soundOff.png", 0.02);
+}).then(function(image){
+	soundOff_icon=image;
+	return getImage("soundOn.png", 0.02)
+}).then(function(image){
+	soundOn_icon=image;
 	return getImage("Fish1.png", 0.05);
 }).then(function(image){
 	fish_images.push(image);
@@ -432,6 +439,21 @@ function update (){
 			pause_icon.width*=1.5;
 			pause_icon.height*=1.5;
 		}
+		soundOff_icon.width=soundOff_icon.naturalWidth*0.02;
+		soundOff_icon.height=soundOff_icon.naturalHeight*0.02;
+		soundOn_icon.width=soundOn_icon.naturalWidth*0.02;
+		soundOn_icon.height=soundOn_icon.naturalHeight*0.02;
+		
+		if(mouseX>pause_icon.width+25 && mouseX<pause_icon.width+soundOn_icon.width+30 && mouseY>0 && mouseY<soundOn_icon.height+20){
+			if(mute){
+				soundOff_icon.width*=1.5;
+				soundOff_icon.height*=1.5;
+			}
+			else{
+				soundOn_icon.width*=1.5;
+				soundOn_icon.height*=1.5;
+			}
+		}
 		if(LEVEL_COUNT!=5 && score>LEVELS[LEVEL_COUNT]){
 			addFood();
 			LEVEL_COUNT++;
@@ -456,6 +478,8 @@ function render (){
 		context.font ="40px serif";
 		context.strokeText(score, WIDTH-200, 100);
 		context.drawImage(pause_icon, 10, 10, pause_icon.width, pause_icon.height);
+		if(mute) context.drawImage(soundOff_icon, 20+pause_icon.width, 10, soundOff_icon.width, soundOff_icon.height);
+		else context.drawImage(soundOn_icon, 20+pause_icon.width, 10, soundOn_icon.width, soundOn_icon.height);
 		if(gameOver){
 			context.drawImage(gameover_icon, (WIDTH-gameover_icon.width)/2, (HEIGHT-gameover_icon.height)/2, gameover_icon.width, gameover_icon.height);
 			gameover_icon.width=gameover_icon.naturalWidth*gameover_scale;
@@ -493,6 +517,20 @@ window.addEventListener("click", function (){
 	if(play && !gameOver){
 		if(pause_icon.width!=pause_icon.naturalWidth*0.1){
 			pause=(pause)?false:true;
-		} 
+		}
+		if(mute){
+			if(soundOff_icon.width!=parseInt(soundOff_icon.naturalWidth*0.02)){
+				mute=false;
+			 	music.muted=false;
+			}
+		}
+		else{
+			if(soundOn_icon.width!=parseInt(soundOn_icon.naturalWidth*0.02)){
+				console.log(soundOn_icon.width);
+				console.log(soundOn_icon.naturalWidth*0.02);
+				mute=true;
+				music.muted=true;
+			} 
+		}
 	}
 });
