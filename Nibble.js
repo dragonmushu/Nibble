@@ -166,7 +166,7 @@ Player.prototype.update = function (){
 		var food = allFood [i];
 		distance = Math.sqrt((food.x-this.x)*(food.x-this.x)+(food.y-this.y)*(food.y-this.y));
 		if(food.canEat){
-			if(distance<=this.height/2){
+			if(distance<=this.width/2){
 				score+=parseInt(food.length);
 				allFood.splice(i, 1);
 				this.scale+=0.002;
@@ -213,7 +213,6 @@ var Food = function (x, speed, side_length, color, eat){
 Food.prototype.update=function (){
 	this.addAngle(0.2);
 	this.y+=this.speed;
-	if(this.length<=player.width*0.4) this.canEat=true;
 }
 
 Food.prototype.render= function (){
