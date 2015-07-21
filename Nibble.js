@@ -328,7 +328,7 @@ loadWindow().then(function(image){
 }).then(function (image){
 	pause_icon=image;
 	return getImage("gameover.png", 0.2);
-})..then(function(image){
+}).then(function(image){
 	gameover_icon=image;
 	return getImage("soundOff.png", 0.02);
 }).then(function(image){
