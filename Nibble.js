@@ -357,6 +357,7 @@ loadWindow().then(function(image){
 //starts window operations
 function init (p){
 	score=0;
+	LEVEL_COUNT=0;
 	interval=100;
 	foodCounter=0;
 	play=p;
